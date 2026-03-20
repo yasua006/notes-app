@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"outDir": "/static/js",
+		"allowJs": true,
+		"checkJs": true,
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "bundler"
+	},
+
+	"vueCompilerOptions": {
+		"target": 99
+	}
+}

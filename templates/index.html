@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+        <title>Note App</title>
+        <link
+            rel="stylesheet"
+            href="/static/css/style.css" />
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <h1>Note App</h1>
+        </header>
+
+        <main id="app">
+            <section aria-labelledby="notes-heading">
+                <h2 id="notes-heading">Notes</h2>
+
+                <ol v-for="note in notes" :note="note">
+                    <li>{{ note }}</li>
+                </ol>
+            </section>
+
+            <form action="/add" method="post">
+                <p>Add numbered notes.</p>
+
+                <label for="title">Title:</label>
+                <input
+                    id="title"
+                    name="title"
+                    type="text"
+                    placeholder="Title..."
+                    autocapitalize="on"
+                    required />
+                <label for="description"
+                    >Description:</label
+                >
+                <input
+                    id="description"
+                    name="description"
+                    type="text"
+                    placeholder="Description..."
+                    required />
+
+                <button type="submit">Add note</button>
+            </form>
+        </main>
+
+        <!-- <script
+            type="module"
+            src="/static/js/script.js"></script> -->
+    </body>
+</html>
