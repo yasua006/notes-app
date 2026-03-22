@@ -16,6 +16,7 @@
 Vi lager og bruker Python virtuell environment for å unngå konflikter med globale pip packages.
 
 - For MacOS
+
 For å lage en ny virtuell environment:
 ```sh
 python3 -m venv .venv
@@ -31,6 +32,7 @@ Alternativt aktivasjon av `.venv`, kan vi skrive . istedenfor source, hvis Bash 
 ```
 
 - For Windows
+
 For å lage en ny virtuell environment:
 ```sh
 python -m venv .venv
@@ -46,6 +48,7 @@ Aktiver .venv (Command Prompt):
 ```
 
 - For Linux og andre
+
 For å lage en ny virtuell environment:
 ```sh
 python -m venv .venv
