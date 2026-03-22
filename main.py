@@ -1,7 +1,9 @@
 import json
 import hashlib
 
+from asgiref.wsgi import WsgiToAsgi
 from flask import Flask, render_template, request, jsonify
+
 app: Flask = Flask(__name__)
 
 
@@ -88,6 +90,8 @@ def add_note():
         return jsonify({"error": "Cannot add note!"}), 500
 
     return jsonify(note), 201
+
+asgi_app: WsgiToAsgi = WsgiToAsgi(app)
 
 if __name__ == "__main__":
     app.run()
