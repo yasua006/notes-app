@@ -8,7 +8,7 @@
 - Jeg får bruke `requirements.txt` for både en stabil kjøring av appen og lettere installasjon av pip packages
 
 
-## Kjøring Requirements
+## Kjøring Requirements (For Oppdateringer av Koden)
 ### Få med Python virtuell environment (`.venv`)
 Vi lager og bruker Python virtuell environment for å unngå konflikter med globale pip packages.
 
@@ -35,11 +35,12 @@ For å lage en ny virtuell environment:
 python -m venv .venv
 ```
 
-Aktiver .venv (PowerShell):
+Enten, aktiver .venv på PowerShell:
 ```sh
 .venv\Scripts\activate.ps1
 ```
-Aktiver .venv (Command Prompt):
+
+eller på Command Prompt:
 ```sh
 .venv\Scripts\activate.bat
 ```
