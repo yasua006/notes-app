@@ -34,12 +34,24 @@ body {
     background-color: var(--bg);
     color: var(--fg)
 }
-header h1 {font-size: 40px}
+header h1 {
+    font-size: 40px;
+    text-align: center
+}
 h2 {font-size: 32px}
+/* h3 {font-size: 24px} */
+.spaced-top-bottom {margin: 3.5rem 0}
 main span {
     display: none
 }
-/* h3 {font-size: 24px} */
+main form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem
+}
+main form * {width: 50%}
+main section:first-child {margin-top: 10rem}
+main section {margin-bottom: 10rem}
 @media (prefers-color-scheme: dark) {
     :root {
         /* --accent: ; */

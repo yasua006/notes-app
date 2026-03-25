@@ -5,7 +5,7 @@
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0" />
-        <title>Note App</title>
+        <title>Notes App</title>
         <link
             rel="stylesheet"
             href="/static/css/style.css" />
@@ -13,19 +13,19 @@
 
     <body>
         <header>
-            <h1>Note App</h1>
+            <h1>Notes App</h1>
         </header>
 
         <main>
             <section aria-labelledby="notes-heading">
-                <h2 id="notes-heading">Notes</h2>
+                <h2 class="spaced-top-bottom" id="notes-heading">Notes</h2>
 
                 <ol>
                     {%for note in notes%}
                     <li><h3>{{ note["title"] }}</h3></li>
                     <li>{{ note["description"] }}</li>
                     <span id="note-id">{{ note["id"] }}</span>
-                    <button id="delete-note-btn" type="button">🗑️</button>
+                    <button id="delete-note-btn" type="button" title="Deletes note">🗑️</button>
                 </ol>
                 {%endfor%}
             </section>
@@ -55,7 +55,7 @@
             </form>
 
             <section aria-labelledby="todos-heading">
-                <h2 id="todos-heading">TODOs</h2>
+                <h2 class="spaced-top-bottom" id="todos-heading">TODOs</h2>
 
                 <ol>
                     {%for todo in todos%}
@@ -67,7 +67,7 @@
                         value="{{ todo["task_done"] }}" />
                     </li>
                     <span id="todo-id">{{ todo["id"] }}</span>
-                    <button id="delete-todo-btn" type="button">🗑️</button>
+                    <button id="delete-todo-btn" type="button" title="Deletes TODO">🗑️</button>
                 </ol>
                 {%endfor%}
             </section>
