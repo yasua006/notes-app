@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"outDir": "/static/js",
+		"outDir": "static/js",
 		"allowJs": true,
 		"checkJs": true,
 		"target": "esnext",

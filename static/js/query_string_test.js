@@ -1,4 +1,3 @@
-// * Query strings for testing
 // const main = async (
 //     title: string,
 //     description: string

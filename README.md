@@ -108,3 +108,9 @@ Opprett en ny todo i databasen din som inneholder en tittel, en beskrivelse, og 
 
 - Tittelen og beskrivelsen - det samme som [/add-note seksjon](#post-add-note)
 - Oppgave boolean - ikke tom
+
+### DELETE /delete-note
+Fjern en notat med tilhørende ID (query strings).
+
+### DELETE /delete-todo
+Fjern TODO med tilhørende ID (query strings).

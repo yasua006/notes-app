@@ -6,7 +6,7 @@ from test_config import test_db_name, db_config
 #     print(conn.character_set)
 
 
-def create_notes(cursor) -> None:
+def create_test(cursor) -> None:
     print(f"Connected to database {test_db_name}")
 
     cursor.execute("""
@@ -18,7 +18,7 @@ def create_notes(cursor) -> None:
     """)
     print("Executed creation of Notes")
 
-def insert_notes(cursor) -> None:
+def insert_test(cursor) -> None:
     print("Inserting rows...")
 
     insert_query = "INSERT INTO Notes (title, description) VALUES (?, ?)"
@@ -28,13 +28,20 @@ def insert_notes(cursor) -> None:
     cursor.execute(insert_query, ("Temp 2FA kode", "Falsk nyhet?"))
     print(f"Row count inserted: {cursor.rowcount}")
 
-def select_notes(cursor):
+def select_test(cursor) -> None:
     select_query = "SELECT * FROM Notes"
 
     cursor.execute(select_query)
 
     for row in cursor:
         print("Note:", row)
+
+def delete_test(cursor) -> None:
+    print("Deleting row...")
+
+    delete_query = "DELETE FROM Notes WHERE id = ?"
+    cursor.execute(delete_query, [2])
+    cursor.execute(delete_query, [3])  # data argument as list, as tuple doesn't work
 
 def main() -> None:
     cursor = None
@@ -43,9 +50,10 @@ def main() -> None:
     try:
         conn = mariadb.connect(**db_config)
         cursor = conn.cursor()
-        create_notes(cursor)
-        # insert_notes(cursor)
-        select_notes(cursor)
+        create_test(cursor)
+        # insert_test(cursor)
+        # delete_test(cursor)
+        # select_test(cursor)
     except mariadb.IntegrityError as ierr:
         print("NULL value detected while inserting?", ierr)
         conn.rollback()
@@ -59,6 +67,7 @@ def main() -> None:
         if conn:
             conn.close()
             print("Closed connection")
+
 
 if __name__ == "__main__":
     main()

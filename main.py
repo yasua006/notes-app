@@ -3,7 +3,8 @@ import mariadb
 from modules.config import db_config
 from modules.notes_db import *
 from modules.todos_db import *
-from modules.close_db import close_db
+from modules.delete_row import *
+from modules.close_db import *
 
 from asgiref.wsgi import WsgiToAsgi
 from flask import Flask, render_template, request, jsonify
@@ -137,10 +138,10 @@ def add_note():
         conn.rollback()
         return jsonify("NULL value detected while inserting?"), 500
     except mariadb.Error as err:
-        log_file.write(f"Data insert failed! {err}")
+        log_file.write(f"Data insertion failed! {err}")
         log_file.flush()
         conn.rollback()
-        return jsonify("Data insert failed!"), 500
+        return jsonify("Data insertion failed!"), 500
     except Exception as ex:
         log_file.write(f"Cannot add note! {ex}")
         log_file.flush()
@@ -190,14 +191,66 @@ def add_todo():
         conn.rollback()
         return jsonify("NULL value detected while inserting?"), 500
     except mariadb.Error as err:
-        log_file.write(f"Data insert failed! {err}")
+        log_file.write(f"Data insertion failed! {err}")
         log_file.flush()
         conn.rollback()
-        return jsonify("Data insert failed!"), 500
+        return jsonify("Data insertion failed!"), 500
     except Exception as ex:
         log_file.write(f"Cannot add TODO! {ex}")
         log_file.flush()
         return jsonify({"error": "Cannot add TODO!"}), 500
+    finally:
+        close_db(cursor=cursor, conn=conn)
+
+@app.route("/delete-note", methods=["DELETE"])
+def delete_note():
+    cursor = None
+    conn = None
+
+    note_id: str | None = request.args.get("id")
+
+    try:
+        conn = mariadb.connect(**db_config)
+        cursor = conn.cursor()
+
+        delete_row(cursor=cursor, t_to_delete="Notes", row_id=int(note_id))
+
+        return jsonify(f"Note with id {note_id} successfully deleted"), 201
+    except mariadb.Error as err:
+        log_file.write(f"Data deletion failed! {err}")
+        log_file.flush()
+        conn.rollback()
+        return jsonify("Data deletion failed!"), 500
+    except Exception as ex:
+        log_file.write(f"Cannot delete note! {ex}")
+        log_file.flush()
+        return jsonify({"error": "Cannot delete note!"}), 500
+    finally:
+        close_db(cursor=cursor, conn=conn)
+
+@app.route("/delete-todo", methods=["DELETE"])
+def delete_todo():
+    cursor = None
+    conn = None
+
+    todo_id: str | None = request.args.get("id")
+
+    try:
+        conn = mariadb.connect(**db_config)
+        cursor = conn.cursor()
+
+        delete_row(cursor=cursor, t_to_delete="TODOs", row_id=int(todo_id))
+
+        return jsonify(f"TODO with id {todo_id} successfully deleted"), 201
+    except mariadb.Error as err:
+        log_file.write(f"Data deletion failed! {err}")
+        log_file.flush()
+        conn.rollback()
+        return jsonify("Data deletion failed!"), 500
+    except Exception as ex:
+        log_file.write(f"Cannot delete TODO! {ex}")
+        log_file.flush()
+        return jsonify({"error": "Cannot delete TODO!"}), 500
     finally:
         close_db(cursor=cursor, conn=conn)
 

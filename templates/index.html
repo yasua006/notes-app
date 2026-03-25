@@ -16,7 +16,7 @@
             <h1>Note App</h1>
         </header>
 
-        <main id="app">
+        <main>
             <section aria-labelledby="notes-heading">
                 <h2 id="notes-heading">Notes</h2>
 
@@ -24,6 +24,8 @@
                     {%for note in notes%}
                     <li><h3>{{ note["title"] }}</h3></li>
                     <li>{{ note["description"] }}</li>
+                    <span id="note-id">{{ note["id"] }}</span>
+                    <button id="delete-note-btn" type="button">🗑️</button>
                 </ol>
                 {%endfor%}
             </section>
@@ -64,6 +66,8 @@
                         type="checkbox"
                         value="{{ todo["task_done"] }}" />
                     </li>
+                    <span id="todo-id">{{ todo["id"] }}</span>
+                    <button id="delete-todo-btn" type="button">🗑️</button>
                 </ol>
                 {%endfor%}
             </section>
@@ -98,10 +102,8 @@
             </form>
         </main>
 
-        <!-- <script
-            type="module"
-            src="/static/js/script.js"></script> -->
-        <script defer>
+        <script src="/static/js/script.js" defer></script>
+        <!-- <script defer>
             "use strict";
             const task_done = document.body
             .querySelector("#app")
@@ -110,6 +112,6 @@
             task_done.addEventListener("input", () => {
                 console.log(task_done.value);
             });
-        </script>
+        </script> -->
     </body>
 </html>

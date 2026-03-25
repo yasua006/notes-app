@@ -36,6 +36,9 @@ body {
 }
 header h1 {font-size: 40px}
 h2 {font-size: 32px}
+main span {
+    display: none
+}
 /* h3 {font-size: 24px} */
 @media (prefers-color-scheme: dark) {
     :root {
