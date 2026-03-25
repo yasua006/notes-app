@@ -51,35 +51,55 @@ const delete_requests = async () => {
     delete_note_buttons.forEach((delete_note_btn) => {
         delete_note_btn.addEventListener("click", async () => {
             const delete_note_btn_id_ending = delete_note_btn.id.replaceAll("delete-note-btn-", "");
-            const id = "note-id-" + delete_note_btn_id_ending;
+            const id = "note-id-" +
+                delete_note_btn_id_ending;
             const matching_note_id = main_elem.querySelector("#" + id).textContent;
-            const res = await fetch(`/delete-note?id=${matching_note_id}`, { method: "DELETE" });
-            if (!res.ok) {
-                throw new Error("Note deletion not ok!");
+            const confirm_result = confirm("Are you sure you want to delete the note? ");
+            if (!confirm_result)
+                return;
+            try {
+                const res = await fetch(`/delete-note?id=${matching_note_id}`, { method: "DELETE" });
+                if (!res.ok) {
+                    throw new Error("Note deletion not ok!");
+                }
+                // console.info(
+                //     "Delete note result:",
+                //     res.json()
+                // );
+                location.reload();
             }
-            // console.info(
-            //     "Delete note result:",
-            //     res.json()
-            // );
-            location.reload();
+            catch (err) {
+                alert("Error: Note deletion failed! Please try again later!");
+                throw new Error(`Cannot delete matching note! ${err}`);
+            }
         });
-    });
+    }, { passive: true });
     delete_todo_buttons.forEach((delete_todo_btn) => {
         delete_todo_btn.addEventListener("click", async () => {
             const delete_todo_btn_id_ending = delete_todo_btn.id.replaceAll("delete-todo-btn-", "");
-            const id = "todo-id-" + delete_todo_btn_id_ending;
+            const id = "todo-id-" +
+                delete_todo_btn_id_ending;
             const matching_todo_id = main_elem.querySelector("#" + id).textContent;
-            const res = await fetch(`/delete-todo?id=${matching_todo_id}`, { method: "DELETE" });
-            if (!res.ok) {
-                throw new Error("TODO deletion not ok!");
+            const confirm_result = confirm("Are you sure you want to delete the TODO? ");
+            if (!confirm_result)
+                return;
+            try {
+                const res = await fetch(`/delete-todo?id=${matching_todo_id}`, { method: "DELETE" });
+                if (!res.ok) {
+                    throw new Error("TODO deletion not ok!");
+                }
+                // console.info(
+                //     "Delete TODO result:",
+                //     res.json()
+                // );
+                location.reload();
             }
-            // console.info(
-            //     "Delete TODO result:",
-            //     res.json()
-            // );
-            location.reload();
+            catch (err) {
+                alert("Error: TODO deletion failed! Please try again later!");
+                throw new Error(`Cannot delete matching TODO! ${err}`);
+            }
         });
-    });
+    }, { passive: true });
 };
 const main = async () => {
     // edit_requests();

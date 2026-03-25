@@ -25,7 +25,7 @@
                     <li id="note-title-{{ i }}"><h3>{{ note["title"] }}</h3></li>
                     <li id="note-description-{{ i }}">{{ note["description"] }}</li>
                     <span id="note-id-{{ i }}">{{ note["id"] }}</span>
-                    <button id="edit-note-btn-{{ i }}" type="button" title="Edits note">✏️</button>
+                    <!-- <button id="edit-note-btn-{{ i }}" type="button" title="Edits note">✏️</button> -->
                     <button id="delete-note-btn-{{ i }}" type="button" title="Deletes note">🗑️</button>
                 </ol>
                 {%endfor%}
@@ -68,7 +68,7 @@
                         value="{{ todo["task_done"] }}" />
                     </li>
                     <span id="todo-id-{{ i }}">{{ todo["id"] }}</span>
-                    <button id="edit-todo-btn-{{ i }}" type="button" title="Edits TODO">✏️</button>
+                    <!-- <button id="edit-todo-btn-{{ i }}" type="button" title="Edits TODO">✏️</button> -->
                     <button id="delete-todo-btn-{{ i }}" type="button" title="Deletes TODO">🗑️</button>
                 </ol>
                 {%endfor%}

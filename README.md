@@ -91,6 +91,8 @@ uvicorn main:asgi_app
 
 
 ## API bruk
+JSON blir resultatet som i en vanlig API.
+
 ### GET /notes
 Vis alle notater fant i databasen din.
 
@@ -109,8 +111,21 @@ Opprett en ny todo i databasen din som inneholder en tittel, en beskrivelse, og 
 - Tittelen og beskrivelsen - det samme som [/add-note seksjon](#post-add-note)
 - Oppgave boolean - ikke tom
 
+### PATCH /patch-note
+Rediger en eksisterende notat i databasen din (query strings).
+
+**Så lenge minst en av disse blir redigert:**
+- Tittelen og beskrivelsen - det samme som [/add-note seksjon](#post-add-note)
+
+### PATCH /patch-todo
+Rediger en eksisterende TODO i databasen din (query strings).
+
+**Så lenge minst en av disse blir redigert:**
+- Tittelen og beskrivelsen - det samme som [/add-note seksjon](#post-add-note)
+- Oppgave boolean - det samme som [/add-todo](#post-add-todo)
+
 ### DELETE /delete-note
-Fjern en notat med tilhørende ID (query strings).
+Fjern en notat med tilhørende ID fant i databasen din (query strings).
 
 ### DELETE /delete-todo
-Fjern TODO med tilhørende ID (query strings).
+Fjern TODO med tilhørende ID fant i databasen din (query strings).
