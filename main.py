@@ -3,6 +3,7 @@ import mariadb
 from modules.config import db_config
 from modules.notes_db import *
 from modules.todos_db import *
+from modules.patch_row import *
 from modules.delete_row import *
 from modules.close_db import *
 
@@ -22,6 +23,14 @@ log_file.flush()
 #     log_file.write(f"Method: {request.method} Path: {request.path}\n")
 #     log_file.flush()
 
+# Source - https://stackoverflow.com/a/27036691
+# Posted by dreyescat, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-03-25, License - CC BY-SA 3.0
+
+@app.context_processor
+def inject_enumerate():
+    return dict(enumerate=enumerate)
+
 @app.route("/")
 def home():
     cursor = None
@@ -36,11 +45,12 @@ def home():
         notes = get_notes(cursor)
         todos = get_todos(cursor)
 
-        # for item in notes:
-            # log_file.write(f"Notat values vist: {item.values()}\n")
-            # log_file.write(f"Notat tittel vist: {item["title"]}\n")
-            # log_file.write(f"Notat beskrivelse vist: {item["description"]}\n")
-            # log_file.flush()
+        # for i, note in enumerate(notes):
+        #     log_file.write(f"{i}")
+        #     log_file.write(f"Notat values vist: {note.values()}\n")
+        #     log_file.write(f"Notat tittel vist: {note["title"]}\n")
+        #     log_file.write(f"Notat beskrivelse vist: {note["description"]}\n")
+        #     log_file.flush()
 
         return render_template("index.html", notes=notes, todos=todos)
     except mariadb.Error as err:
@@ -215,7 +225,7 @@ def delete_note():
 
         delete_row(cursor=cursor, t_to_delete="Notes", row_id=int(note_id))
 
-        return jsonify(f"Note with id {note_id} successfully deleted"), 201
+        return jsonify(f"Note with id {note_id} successfully deleted"), 200
     except mariadb.Error as err:
         log_file.write(f"Data deletion failed! {err}")
         log_file.flush()
@@ -241,7 +251,7 @@ def delete_todo():
 
         delete_row(cursor=cursor, t_to_delete="TODOs", row_id=int(todo_id))
 
-        return jsonify(f"TODO with id {todo_id} successfully deleted"), 201
+        return jsonify(f"TODO with id {todo_id} successfully deleted"), 200
     except mariadb.Error as err:
         log_file.write(f"Data deletion failed! {err}")
         log_file.flush()
@@ -251,6 +261,65 @@ def delete_todo():
         log_file.write(f"Cannot delete TODO! {ex}")
         log_file.flush()
         return jsonify({"error": "Cannot delete TODO!"}), 500
+    finally:
+        close_db(cursor=cursor, conn=conn)
+
+@app.route("/patch-note", methods=["PATCH"])
+def patch_note():
+    cursor = None
+    conn = None
+
+    note_title: str | None = request.args.get("title")
+    note_description: str | None = request.args.get("description")
+    note_id: str | None = request.args.get("id")
+    
+    try:
+        conn = mariadb.connect(**db_config)
+        cursor = conn.cursor()
+
+        patch_row(cursor=cursor, t_to_patch="Notes",
+            title=note_title, description=note_description, row_id=note_id)
+
+        return jsonify(f"Note with id {note_id} successfully edited"), 200
+    except mariadb.Error as err:
+        log_file.write(f"Data editing failed! {err}")
+        log_file.flush()
+        conn.rollback()
+        return jsonify("Data editing failed!"), 500
+    except Exception as ex:
+        log_file.write(f"Cannot edit note! {ex}")
+        log_file.flush()
+        return jsonify({"error": "Cannot edit note!"}), 500
+    finally:
+        close_db(cursor=cursor, conn=conn)
+
+@app.route("/patch-todo", methods=["PATCH"])
+def patch_todo():
+    cursor = None
+    conn = None
+
+    todo_title: str | None = request.args.get("title")
+    todo_description: str | None = request.args.get("description")
+    task_done: str | None = request.args.get("task-done")
+    todo_id: str | None = request.args.get("id")
+
+    try:
+        conn = mariadb.connect(**db_config)
+        cursor = conn.cursor()
+
+        patch_row(cursor=cursor, t_to_patch="Notes",
+            title=todo_title, description=todo_description, row_id=todo_id, task_done=task_done)
+
+        return jsonify(f"TODO with id {todo_id} successfully edited"), 200
+    except mariadb.Error as err:
+        log_file.write(f"Data editing failed! {err}")
+        log_file.flush()
+        conn.rollback()
+        return jsonify("Data editing failed!"), 500
+    except Exception as ex:
+        log_file.write(f"Cannot edit TODO! {ex}")
+        log_file.flush()
+        return jsonify({"error": "Cannot edit TODO!"}), 500
     finally:
         close_db(cursor=cursor, conn=conn)
 

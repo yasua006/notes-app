@@ -67,7 +67,7 @@ pip3 install -r requirements.txt
 pip install -r requirements.txt
 ```
 
-### Få med `node_modules` (trenges ikke akkurat nå)
+### Få med `node_modules`
 - (hvis nodejs er installert):
 ```sh
 npm install

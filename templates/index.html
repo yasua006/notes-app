@@ -21,11 +21,12 @@
                 <h2 class="spaced-top-bottom" id="notes-heading">Notes</h2>
 
                 <ol>
-                    {%for note in notes%}
-                    <li><h3>{{ note["title"] }}</h3></li>
-                    <li>{{ note["description"] }}</li>
-                    <span id="note-id">{{ note["id"] }}</span>
-                    <button id="delete-note-btn" type="button" title="Deletes note">🗑️</button>
+                    {%for i, note in enumerate(notes)%}
+                    <li id="note-title-{{ i }}"><h3>{{ note["title"] }}</h3></li>
+                    <li id="note-description-{{ i }}">{{ note["description"] }}</li>
+                    <span id="note-id-{{ i }}">{{ note["id"] }}</span>
+                    <button id="edit-note-btn-{{ i }}" type="button" title="Edits note">✏️</button>
+                    <button id="delete-note-btn-{{ i }}" type="button" title="Deletes note">🗑️</button>
                 </ol>
                 {%endfor%}
             </section>
@@ -58,16 +59,17 @@
                 <h2 class="spaced-top-bottom" id="todos-heading">TODOs</h2>
 
                 <ol>
-                    {%for todo in todos%}
-                    <li><h3>{{ todo["title"] }}</h3></li>
-                    <li>{{ todo["description"] }}</li>
-                    <li>
+                    {%for i, todo in enumerate(todos)%}
+                    <li id="todo-title-{{ i }}"><h3>{{ todo["title"] }}</h3></li>
+                    <li id="todo-description-{{ i }}">{{ todo["description"] }}</li>
+                    <li id="task-done-{{ i }}">
                         <input
                         type="checkbox"
                         value="{{ todo["task_done"] }}" />
                     </li>
-                    <span id="todo-id">{{ todo["id"] }}</span>
-                    <button id="delete-todo-btn" type="button" title="Deletes TODO">🗑️</button>
+                    <span id="todo-id-{{ i }}">{{ todo["id"] }}</span>
+                    <button id="edit-todo-btn-{{ i }}" type="button" title="Edits TODO">✏️</button>
+                    <button id="delete-todo-btn-{{ i }}" type="button" title="Deletes TODO">🗑️</button>
                 </ol>
                 {%endfor%}
             </section>

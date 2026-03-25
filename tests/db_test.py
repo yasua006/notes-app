@@ -36,12 +36,20 @@ def select_test(cursor) -> None:
     for row in cursor:
         print("Note:", row)
 
+def patch_test(cursor) -> None:
+    print("Patching row...")
+
+    patch_query = "UPDATE Notes SET title = ?, description = ? WHERE id = ?"
+    cursor.execute(patch_query, ("Tester igjen", "testing igjen", 1))
+    print("Patched row")
+
 def delete_test(cursor) -> None:
     print("Deleting row...")
 
     delete_query = "DELETE FROM Notes WHERE id = ?"
     cursor.execute(delete_query, [2])
     cursor.execute(delete_query, [3])  # data argument as list, as tuple doesn't work
+    print("Deleted row")
 
 def main() -> None:
     cursor = None
@@ -52,6 +60,7 @@ def main() -> None:
         cursor = conn.cursor()
         create_test(cursor)
         # insert_test(cursor)
+        #patch_test(cursor)
         # delete_test(cursor)
         # select_test(cursor)
     except mariadb.IntegrityError as ierr:
