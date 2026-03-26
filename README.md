@@ -118,7 +118,7 @@ uvicorn main:asgi_app
 
 
 ## API bruk
-JSON blir resultatet som i en vanlig API. For å gjøre POST requests, må det være form encoding - det er fra serveren vårt prøver å få. Det reste av requests er query strings.
+JSON blir response resultatet som i en vanlig API. For å gjøre POST requests, må det være form encoding - det er hva serveren vårt prøver å få. Det reste av requests er query strings.
 
 ### GET /notes
 Vis alle notater fant i databasen din.
@@ -183,12 +183,13 @@ Scroll litt nede for å se "Build Command" og "Start Command". De skal være så
 - Instance Type: husk å velge "Free", fordi valget er "Starter" som default og "Starter" er ikke gratis.
 
 Scroll litt nede for å se "Environment Variables". Her skal du taste inn verdiene som du bruker for databasen:
-host: verdi her
-port: verdi her
-username: verdi her (brukernavn til database brukeren du lagde i stad)
-password: verdi her
-db_name: verdi her (navnet til databasen du lagde i stad)
+- host: verdi her
+- port: verdi her
+- username: verdi her (brukernavn til database brukeren du lagde i stad)
+- password: verdi her
+- db_name: verdi her (navnet til databasen du lagde i stad)
 
 > [!NOTE]
 > "verdi her" er placeholder, bytt til dine env. variabel verdier
+>
 > host skal ikke være "localhost" i produksjon
