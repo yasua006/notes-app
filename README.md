@@ -104,7 +104,7 @@ mariadb
 
 - Start terminalen på nytt og logge deg inn som brukeren på terminalen.
 ```sh
-mysql -u brukernavn -p;
+mysql -u brukernavn -p
 ```
 
 > [!NOTE]
@@ -178,8 +178,8 @@ For å starte en ny server (inkluderer klienten):
 - Language: Python 3
 
 Scroll litt nede for å se "Build Command" og "Start Command". De skal være sånn:
-- Build Command: npm install && pip install -r requirements.txt
-- Start Command: uvicorn main:asgi_app
+- Build Command: `npm install && pip install -r requirements.txt`
+- Start Command: `uvicorn main:asgi_app`
 
 - Instance Type: husk å velge "Free", fordi valget er "Starter" som default og "Starter" er ikke gratis.
 
