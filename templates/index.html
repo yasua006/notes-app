@@ -24,9 +24,9 @@
                     {%for i, note in enumerate(notes)%}
                     <li id="note-title-{{ i }}"><h3>{{ note["title"] }}</h3></li>
                     <li id="note-description-{{ i }}">{{ note["description"] }}</li>
-                    <span id="note-id-{{ i }}">{{ note["id"] }}</span>
-                    <button id="edit-note-btn-{{ i }}" type="button" title="Edits note">✏️</button>
-                    <button id="delete-note-btn-{{ i }}" type="button" title="Deletes note">🗑️</button>
+                    <li><span id="note-id-{{ i }}">{{ note["id"] }}</span></li>
+                    <li><button id="edit-note-btn-{{ i }}" type="button" title="Edits note">✏️</button></li>
+                    <li><button id="delete-note-btn-{{ i }}" type="button" title="Deletes note">🗑️</button></li>
                 </ol>
                 {%endfor%}
             </section>
@@ -67,9 +67,9 @@
                         type="checkbox"
                         value="{{ todo["task_done"] }}" />
                     </li>
-                    <span id="todo-id-{{ i }}">{{ todo["id"] }}</span>
-                    <button id="edit-todo-btn-{{ i }}" type="button" title="Edits TODO">✏️</button>
-                    <button id="delete-todo-btn-{{ i }}" type="button" title="Deletes TODO">🗑️</button>
+                    <li><span id="todo-id-{{ i }}">{{ todo["id"] }}</span></li>
+                    <li><button id="edit-todo-btn-{{ i }}" type="button" title="Edits TODO">✏️</button></li>
+                    <li><button id="delete-todo-btn-{{ i }}" type="button" title="Deletes TODO">🗑️</button></li>
                 </ol>
                 {%endfor%}
             </section>
@@ -104,8 +104,8 @@
             </form>
         </main>
 
-        <script src="/static/js/script.js" defer></script>
-        <script src="/static/js/checked_checkboxes_bold.js" defer></script>
+        <script type="module" src="/static/js/script.js" defer></script>
+        <script type="module" src="/static/js/checked_checkboxes_bold.js" defer></script>
         <!-- <script defer>
             "use strict";
             const task_done = document.body

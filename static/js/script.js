@@ -1,107 +1,9 @@
-const main_elem = document.body.querySelector("main");
-const handle_note_deletions = async (delete_note_btn) => {
-    const delete_note_btn_id_ending = delete_note_btn.id.replaceAll("delete-note-btn-", "");
-    const id = "note-id-" + delete_note_btn_id_ending;
-    const matching_note_id = main_elem.querySelector("#" + id).textContent;
-    const confirm_result = confirm("Are you sure you want to delete the note? ");
-    if (!confirm_result)
-        return;
-    try {
-        const res = await fetch(`/delete-note?id=${matching_note_id}`, { method: "DELETE" });
-        if (!res.ok) {
-            throw new Error("Note deletion not ok!");
-        }
-        // console.info("Delete note result:", res.json());
-        location.reload();
-    }
-    catch (err) {
-        alert("Error: Note deletion failed! Please try again later!");
-        throw new Error(`Cannot delete matching note! ${err}`);
-    }
-};
-const handle_todo_deletions = async (delete_todo_btn) => {
-    const delete_todo_btn_id_ending = delete_todo_btn.id.replaceAll("delete-todo-btn-", "");
-    const id = "todo-id-" + delete_todo_btn_id_ending;
-    const matching_todo_id = main_elem.querySelector("#" + id).textContent;
-    const confirm_result = confirm("Are you sure you want to delete the TODO? ");
-    if (!confirm_result)
-        return;
-    try {
-        const res = await fetch(`/delete-todo?id=${matching_todo_id}`, { method: "DELETE" });
-        if (!res.ok) {
-            throw new Error("TODO deletion not ok!");
-        }
-        // console.info("Delete TODO result:", res.json());
-        location.reload();
-    }
-    catch (err) {
-        alert("Error: TODO deletion failed! Please try again later!");
-        throw new Error(`Cannot delete matching TODO! ${err}`);
-    }
-};
-const handle_note_edits = async (edit_note_btn) => {
-    const edit_note_btn_id_ending = edit_note_btn.id.replaceAll("edit-note-btn-", "");
-    const id = "note-id-" + edit_note_btn_id_ending;
-    const matching_note_id = main_elem.querySelector("#" + id).textContent;
-    const matching_note_title = main_elem
-        .querySelector("[id^='note-title-']")
-        .querySelector("h3").textContent;
-    const matching_note_description = main_elem.querySelector("[id^='note-description-']").textContent;
-    const edit_title_prompt = prompt(`Current title: ${matching_note_title}`);
-    const edit_description_prompt = prompt(`Current description: ${matching_note_description}`);
-    if (!edit_title_prompt)
-        return;
-    if (!edit_description_prompt)
-        return;
-    try {
-        const res = await fetch(`/patch-note?title=${edit_title_prompt}&description=${edit_description_prompt}&id=${matching_note_id}`, { method: "PATCH" });
-        if (!res.ok) {
-            throw new Error("Note editing not ok!");
-        }
-        // console.info("Edit note result:", res.json());
-        location.reload();
-    }
-    catch (err) {
-        alert("Error: Note editing failed! Please try again later!");
-        throw new Error(`Cannot edit matching note! ${err}`);
-    }
-};
-const handle_todo_edits = async (edit_todo_btn) => {
-    const edit_todo_btn_id_ending = edit_todo_btn.id.replaceAll("edit-todo-btn-", "");
-    const id = "todo-id-" + edit_todo_btn_id_ending;
-    const matching_todo_id = main_elem.querySelector("#" + id).textContent;
-    const matching_todo_title = main_elem
-        .querySelector("[id^='todo-title-']")
-        .querySelector("h3").textContent;
-    const matching_todo_description = main_elem.querySelector("[id^='todo-description-']").textContent;
-    const matching_task_done = main_elem
-        .querySelector("[id^='task-done-']")
-        .querySelector("input[type='checkbox']").textContent;
-    const edit_title_prompt = prompt(`Current title: ${matching_todo_title}`);
-    const edit_description_prompt = prompt(`Current description: ${matching_todo_description}`);
-    const edit_task_done_prompt = prompt(`Current task done: ${matching_task_done}`);
-    if (!edit_title_prompt)
-        return;
-    if (!edit_description_prompt)
-        return;
-    if (!edit_task_done_prompt)
-        return;
-    try {
-        const res = await fetch(`/patch-todo?title=${edit_title_prompt}&description=${edit_description_prompt}&task_done=${edit_task_done_prompt}&id=${matching_todo_id}`, { method: "PATCH" });
-        if (!res.ok) {
-            throw new Error("TODO editing not ok!");
-        }
-        // console.info("Edit TODO result:", res.json());
-        location.reload();
-    }
-    catch (err) {
-        alert("Error: TODO editing failed! Please try again later!");
-        throw new Error(`Cannot edit matching TODO! ${err}`);
-    }
-};
+import { main_elem } from "./modules/main_elem_var";
+import { handle_note_deletions, handle_todo_deletions } from "./modules/handle_deletions";
+import { handle_note_edits, handle_todo_edits } from "./modules/handle_edits";
 const edit_requests = async () => {
-    const edit_note_buttons = main_elem.querySelectorAll("[id^='edit-note-btn-']");
-    const edit_todo_buttons = main_elem.querySelectorAll("[id^='edit-todo-btn-']");
+    const edit_note_buttons = main_elem.querySelectorAll("button[id^='edit-note-btn-']");
+    const edit_todo_buttons = main_elem.querySelectorAll("button[id^='edit-todo-btn-']");
     edit_note_buttons.forEach((edit_note_btn) => {
         (edit_note_btn.addEventListener("click", async () => handle_note_edits(edit_note_btn)),
             { passive: true });
@@ -112,8 +14,8 @@ const edit_requests = async () => {
     });
 };
 const delete_requests = async () => {
-    const delete_note_buttons = main_elem.querySelectorAll("[id^='delete-note-btn-']");
-    const delete_todo_buttons = main_elem.querySelectorAll("[id^='delete-todo-btn-']");
+    const delete_note_buttons = main_elem.querySelectorAll("button[id^='delete-note-btn-']");
+    const delete_todo_buttons = main_elem.querySelectorAll("button[id^='delete-todo-btn-']");
     delete_note_buttons.forEach((delete_note_btn) => {
         delete_note_btn.addEventListener("click", async () => handle_note_deletions(delete_note_btn));
     }, { passive: true });
