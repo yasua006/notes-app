@@ -12,6 +12,8 @@ from flask import Flask, render_template, request, jsonify
 
 app: Flask = Flask(__name__)
 
+create_log_file_if_not_exists: None = open("log.txt", "w").close()
+
 log_file = open("log.txt", "a+")
 log_file.seek(0)
 log_file.write("\n–––––––––––––––––––––––––––––––––––\n\n")

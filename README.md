@@ -9,7 +9,6 @@
 
 
 ## Kjøring Requirements (For Oppdateringer av Koden)
-- Ny log.txt for å unngå `log_file` relatert feil meldinger
 
 ### Få med Python virtuell environment (`.venv`)
 Vi lager og bruker Python virtuell environment for å unngå konflikter med globale pip packages.
@@ -119,7 +118,7 @@ uvicorn main:asgi_app
 
 
 ## API bruk
-JSON blir resultatet som i en vanlig API.
+JSON blir resultatet som i en vanlig API. For å gjøre POST requests, må det være form encoding - det er fra serveren vårt prøver å få. Det reste av requests er query strings.
 
 ### GET /notes
 Vis alle notater fant i databasen din.
