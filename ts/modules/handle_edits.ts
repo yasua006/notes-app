@@ -3,7 +3,7 @@ import { get_matching_id } from "./get_matching_id";
 
 export const handle_note_edits = async (
     edit_note_btn: HTMLButtonElement
-): Promise<void> => {
+) => {
     const id: string = edit_note_btn.id.replaceAll(
         "edit-note-btn-",
         "note-id-"
@@ -53,7 +53,7 @@ export const handle_note_edits = async (
 
 export const handle_todo_edits = async (
     edit_todo_btn: HTMLButtonElement
-): Promise<void> => {
+) => {
     const id: string = edit_todo_btn.id.replaceAll(
         "edit-todo-btn-",
         "todo-id-"

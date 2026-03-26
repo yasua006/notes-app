@@ -8,7 +8,7 @@ import {
     handle_todo_edits
 } from "./modules/handle_edits";
 
-const edit_requests = async (): Promise<void> => {
+const edit_requests = async () => {
     const edit_note_buttons: NodeListOf<HTMLButtonElement> =
         main_elem.querySelectorAll(
             "button[id^='edit-note-btn-']"
@@ -32,7 +32,7 @@ const edit_requests = async (): Promise<void> => {
     });
 };
 
-const delete_requests = async (): Promise<void> => {
+const delete_requests = async () => {
     const delete_note_buttons: NodeListOf<HTMLButtonElement> =
         main_elem.querySelectorAll(
             "button[id^='delete-note-btn-']"

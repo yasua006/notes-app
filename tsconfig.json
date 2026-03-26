@@ -5,7 +5,8 @@
 		"checkJs": true,
 		"target": "esnext",
 		"module": "esnext",
-		"moduleResolution": "bundler"
+		"moduleResolution": "bundler",
+		"declaration": true
 	},
 
 	"vueCompilerOptions": {

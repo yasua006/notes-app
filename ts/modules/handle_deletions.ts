@@ -2,7 +2,7 @@ import { get_matching_id } from "./get_matching_id";
 
 export const handle_note_deletions = async (
     delete_note_btn: HTMLButtonElement
-): Promise<void> => {
+) => {
     const id: string = delete_note_btn.id.replaceAll(
         "delete-note-btn-",
         "note-id-"
@@ -41,7 +41,7 @@ export const handle_note_deletions = async (
 
 export const handle_todo_deletions = async (
     delete_todo_btn: HTMLButtonElement
-): Promise<void> => {
+) => {
     const id: string = delete_todo_btn.id.replaceAll(
         "delete-todo-btn-",
         "todo-id-"
