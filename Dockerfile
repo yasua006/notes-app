@@ -2,7 +2,7 @@ FROM python:3.11.15-trixie
 
 WORKDIR /app
 
-RUN apt update && apt upgrade \
+RUN apt update -y && apt upgrade -y \
 && apt install -y libmariadb-dev libmariadb3 \
 && apt install -y nodejs npm
 
