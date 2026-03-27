@@ -1,5 +1,7 @@
 FROM debian:latest
 
+COPY package.json package-lock.json ./
+
 RUN apt update && apt upgrade \
 && apt install -y libmariadb-dev libmariadb3 \
 && apt install -y nodejs npm \
