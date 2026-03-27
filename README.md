@@ -159,35 +159,23 @@ Fjern TODO med tilhørende ID fant i databasen din (query strings).
 
 
 ## Hvordan Starte En Ny App Server
-Vi bruker Render for å hoste vårt app server. Det er lett å bruke.
+Vi bruker Railway for å hoste vårt app server. Det er lett å bruke.
 
-For å starte en ny server (inkluderer klienten):
-1. Logge deg inn eller registrer deg en ny gratis bruker
-- Registrer deg der: [Render register](https://dashboard.render.com/register)
-- Eller logge deg inn: [Render login](https://dashboard.render.com/login)
+1. For å starte en ny server (inkluderer klienten):
+- Logge deg inn eller registrer deg en ny gratis bruker
+- Registrer deg der eller logge deg inn: [Railway dashboard](https://railway.com/dashboard)
 
-2. Lag en ny web service
-- [Render web service](https://dashboard.render.com/web/new)
+2. Lag en ny prosjekt
+- Gå til [Railway new project](https://railway.com/new/github) og følg instruksjonene der
 
-3. For public repository
-- Gå til 'Public Git Repository':
-![Showing render new web service section](render_new_web_service_section.png)
+3. Oppdater Dockerfile `ENV` verdiene. Det bruker vi for å kjøre "build" kommandoene
 
-4. Fylle inn alt du trenger:
-- Language: Python 3
-
-Scroll litt nede for å se "Build Command" og "Start Command". De skal være sånn:
-- Build Command: `npm install && pip install -r requirements.txt`
-- Start Command: `uvicorn main:asgi_app`
-
-- Instance Type: husk å velge "Free", fordi valget er "Starter" som default og "Starter" er ikke gratis.
-
-Scroll litt nede for å se "Environment Variables". Her skal du taste inn verdiene som du bruker for databasen:
-- host: verdi her
-- port: verdi her
-- username: verdi her (brukernavn til database brukeren du lagde i stad)
-- password: verdi her
-- db_name: verdi her (navnet til databasen du lagde i stad)
+Her skal du taste inn verdiene som du bruker for databasen:
+- host=verdi_her
+- port=verdi_her
+- username=verdi_her (brukernavn til database brukeren du lagde i stad)
+- password=verdi_her
+- db_name=verdi_her (navnet til databasen du lagde i stad)
 
 > [!NOTE]
 > "verdi her" er placeholder, bytt til dine env. variabel verdier
