@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt \
 
 COPY . /app/
 
-CMD ["uvicorn", "main:asgi_app --host 0.0.0.0"]
+CMD ["uvicorn", "main:asgi_app", "--host 0.0.0.0"]
