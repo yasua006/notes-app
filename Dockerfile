@@ -6,9 +6,9 @@ ENV username=yasua006
 ENV password=Skole123
 ENV db_name=note_app_db
 
-RUN apt-get update && apt-get upgrade \
-&& apt-get install -y libmariadb-dev libmariadb3 \
-apt-get install nodejs npm \
+RUN apt update && apt upgrade \
+&& apt install -y libmariadb-dev libmariadb3 \
+apt install nodejs npm \
 && npm install && pip install -r requirements.txt
 
 WORKDIR /app
