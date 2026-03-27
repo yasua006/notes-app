@@ -4,7 +4,8 @@ WORKDIR /app
 
 RUN apt update && apt upgrade \
 && apt install -y libmariadb-dev libmariadb3 \
-&& apt install -y nodejs npm
+&& apt install -y nodejs npm \
+&& apt install python3-pip
 
 COPY package.json package-lock.json ./
 COPY requirements.txt ./
