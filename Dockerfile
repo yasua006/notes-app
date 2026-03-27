@@ -8,7 +8,7 @@ ENV db_name=note_app_db
 
 RUN apt update && apt upgrade \
 && apt install -y libmariadb-dev libmariadb3 \
-apt install nodejs npm \
+&& apt install -y nodejs npm \
 && npm install && pip install -r requirements.txt
 
 WORKDIR /app
