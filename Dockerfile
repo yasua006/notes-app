@@ -16,4 +16,4 @@ COPY . .
 
 RUN ls
 
-CMD ["python", "-m", "uvicorn", "main:asgi_app", "--host", "0.0.0.0"]
+# CMD ["python", "-m", "uvicorn", "main:asgi_app", "--host", "0.0.0.0"]
