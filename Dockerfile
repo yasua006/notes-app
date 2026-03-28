@@ -12,8 +12,8 @@ COPY package.json package-lock.json ./
 RUN pip install -r requirements.txt \
 && npm ci --no-audit --no-fund --verbose \
 
-COPY . .
+COPY *.py /app/
 
 RUN ls
 
-# CMD ["python", "-m", "uvicorn", "main:asgi_app", "--host", "0.0.0.0"]
+CMD ["python", "-m", "uvicorn", "main:asgi_app", "--host", "0.0.0.0"]
