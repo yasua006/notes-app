@@ -10,7 +10,7 @@ COPY requirements.txt ./
 COPY package.json package-lock.json ./
 
 RUN pip install -r requirements.txt \
-&& npm ci --no-audit --no-fund --verbose \
+&& npm ci --no-audit --no-fund --verbose
 
 COPY *.py /app/
 
