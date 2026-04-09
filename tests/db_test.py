@@ -28,13 +28,15 @@ def insert_test(cursor) -> None:
     cursor.execute(insert_query, ("Temp 2FA kode", "Falsk nyhet?"))
     print(f"Row count inserted: {cursor.rowcount}")
 
-def select_test(cursor) -> None:
+def select_test(cursor):
     select_query = "SELECT * FROM Notes"
 
     cursor.execute(select_query)
 
     for row in cursor:
         print("Note:", row)
+
+    return cursor.fetchall()
 
 def patch_test(cursor) -> None:
     print("Patching row...")
