@@ -1,5 +1,4 @@
 :root {
-    /* --accent: ; */
     --bg: #fff;
     --fg: #444
 }
@@ -41,6 +40,13 @@ header h1 {
 h2 {font-size: 32px}
 /* h3 {font-size: 24px} */
 .spaced-top-bottom {margin: 3.5rem 0}
+input,
+button {
+    background: transparent;
+    color: var(--fg)
+}
+button {transition: 300ms filter cubic-bezier(0.55, 0.055, 0.675, 0.19)}
+button:hover {filter: brightness(0.75)}
 main span {display: none}
 main p[id^="todo-description-"]
 main input[id^="task-done-"][type="checkbox"],
@@ -65,7 +71,6 @@ main .TODOs {
 }
 @media (prefers-color-scheme: dark) {
     :root {
-        /* --accent: ; */
         --bg: #444;
         --fg: #fff
     }
