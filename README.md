@@ -111,7 +111,8 @@ uvicorn main:asgi_app --reload
 
 ## API Bruk
 Docs og response visualisering:
-[Notes API demo](https://www.postman.com/yasua006-3009090/notes-api-demo)
+[Notes API docs](https://documenter.getpostman.com/view/53885114/2sBXitCnbe)
+[Notes API demo](https://documenter.getpostman.com/view/53885114/2sBXitCnbd)
 
 
 ## Railway Snarveier
