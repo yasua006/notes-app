@@ -48,18 +48,13 @@ button {
 }
 button {transition: 300ms filter cubic-bezier(0.55, 0.055, 0.675, 0.19)}
 button:hover {filter: brightness(0.75)}
-main span {display: none}
-main input[id^="task-done-"][type="checkbox"],
 main form {
-    display: flex
+    display: flex;
+    flex-direction: column
 }
-main form {flex-direction: column}
 main form input {margin-bottom: 2rem}
 main form *:not(input[type="checkbox"]) {width: 50%}
-main form input[type="checkbox"],
-main .TODOs input[type="checkbox"] {
-    align-self: flex-start
-}
+main form input[type="checkbox"] {align-self: flex-start}
 main section:first-child {margin-top: 10rem}
 main section {margin-bottom: 10rem}
 @media (prefers-color-scheme: dark) {

@@ -10,7 +10,14 @@ from test_config import test_db_name, db_config
 
 
 def create_test(cursor) -> None:
-    print(f"Connected to database {test_db_name}")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Users(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            password_hash VARCHAR(255) NOT NULL UNIQUE
+        )
+    """)
+    print("Executed creation of Users")
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS Notes(
@@ -29,7 +36,7 @@ def create_test(cursor) -> None:
             task_done BOOLEAN NOT NULL
         )
     """)
-    print("Executed creation of TODOs")
+    print("Executed creation of TODOs \n")
 
 def insert_test(cursor) -> None:
     print("Inserting rows...")
@@ -100,7 +107,7 @@ def main() -> None:
             "tasks": todo_tasks["tasks"]
         }
         
-        print(updated_todos)
+        print(updated_todos, "\n")
     except mariadb.IntegrityError as ierr:
         print("NULL value detected while inserting?", ierr)
         conn.rollback()

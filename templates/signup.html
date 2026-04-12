@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+        <title>Sign Up</title>
+        <link
+            rel="stylesheet"
+            href="/static/css/style.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1>Sign Up</h1>
+        </header>
+
+        <main>
+            <form action="/signup" method="post">
+                <p class="spaced-bottom">Create an account.</p>
+
+                <label for="email">Email:</label>
+                <input 
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Your email..."
+                required />
+
+                <label for="password">Password:</label>
+                <input 
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••••••"
+                minlength="12"
+                required />
+
+                <label for="confirm-password">Confirm password:</label>
+                <input 
+                id="confirm-password"
+                name="confirm-password"
+                type="password"
+                placeholder="••••••••••••"
+                minlength="12"
+                required />
+
+                <button type="submit">Create account</button>
+            </form>
+        </main>
+
+        <script type="module" src="/static/js/confirm_password.js" defer></script>
+    </body>
+</html>

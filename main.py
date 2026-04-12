@@ -1,6 +1,7 @@
 import mariadb
 
 from modules.config import db_config
+from modules.users_db import *
 from modules.notes_db import *
 from modules.todos_db import *
 from modules.patch_row import *
@@ -42,6 +43,7 @@ def home():
         conn = mariadb.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
 
+        create_users(cursor)
         create_notes(cursor)
         create_todos(cursor)
         notes = get_notes(cursor)
@@ -62,6 +64,10 @@ def home():
         return jsonify("Data handling failed!"), 500
     finally:
         close_db(cursor=cursor, conn=conn)
+
+@app.route("/signup", methods=["GET"])
+def signup_page() -> str:
+    return render_template("signup.html")
 
 @app.route("/notes", methods=["GET"])
 def show_all_notes():
@@ -142,13 +148,45 @@ def show_all_todos():
     finally:
         close_db(cursor=cursor, conn=conn)
 
-def handle_empty_required(title: str | None, description: str | None):
-    if not title or not description:  # reason: terminal users
-        note: dict[str, str] = {
-            "error": "Title or description - empty!"
-        }
+def handle_empty_required(one: str | None, two: str | None, is_signup: bool):
+    if not one or not two:  # reason: terminal users
+        note: dict[str, str] = {}
 
-        return jsonify(note), 400
+        if not is_signup:
+            note = {
+                "error": "Title or description - empty!"
+            }
+        else:
+            note = {
+                "error": "Email or password - empty!"
+            }
+
+        return jsonify(note)
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    cursor = None
+    conn = None
+
+    email: str | None = request.form.get("email")
+    password: str | None = request.form.get("password")
+
+    response = handle_empty_required(email, password, is_signup=True)
+    if response: return response
+
+    try:
+        conn = mariadb.connect(**db_config)
+        cursor = conn.cursor()
+
+        new_user(cursor=cursor, email=email, password=password)
+        return render_template("index.html", email=email)
+    except mariadb.Error as err:
+        log_file.write(f"Data handling failed (user signup)! {err}\n")
+        log_file.flush()
+        conn.rollback()
+        return 500
+    finally:
+        close_db(cursor=cursor, conn=conn)
 
 @app.route("/add-note", methods=["POST"])
 def add_note():
@@ -158,7 +196,7 @@ def add_note():
     title: str | None = request.form.get("title")
     description: str | None = request.form.get("description")
 
-    response = handle_empty_required(title=title, description=description)
+    response = handle_empty_required(title, description, is_signup=False)
     if response: return response
 
     # log_file.write(f"tittel og beskrivelse: {title, description}\n")
@@ -201,7 +239,7 @@ def add_todo():
     # log_file.write(f"Task done: {task_done or None}\n")
     # log_file.flush()
 
-    response = handle_empty_required(title=title, description=description)
+    response = handle_empty_required(title, description, is_signup=False)
     if response: return response
 
     # håndtere checkbox value
