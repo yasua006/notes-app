@@ -82,7 +82,16 @@ def show_all_notes():
         if not len(notes):
             return jsonify({}), 200 
 
-        return jsonify(notes), 200
+        updated_notes = {}
+
+        for parent in notes:
+            updated_notes.update({
+                "description": parent.get("description"),
+                "id": parent.get("id"),
+                "title": parent.get("title")
+            })
+
+        return jsonify(updated_notes), 200
     except mariadb.Error as err:
         log_file.write(f"Data handling failed! {err}\n")
         log_file.flush()
@@ -110,25 +119,20 @@ def show_all_todos():
         if not len(todos):
             return jsonify({}), 200
 
-        todo_tasks = {"tasks": {}}
-        partial_todos = []
+        updated_todos = {}
 
         for parent in todos:
             # print(parent)
 
-            todo_tasks["tasks"].update({
-                "description": parent.get("description"),
-                "task_done": parent.get("task_done")
-            })
-            partial_todos.append({
+            updated_todos.update({
                 "id": parent.get("id"),
-                "title": parent.get("title")
+                "title": parent.get("title"),
+                "tasks": {
+                    "description": parent.get("description"),
+                    "task_done": parent.get("task_done")
+                }
             })
 
-        updated_todos = {
-            "info": partial_todos,
-            "tasks": todo_tasks["tasks"]
-        }
         return jsonify(updated_todos), 200
     except mariadb.Error as err:
         log_file.write(f"Data handling failed! {err}\n")
