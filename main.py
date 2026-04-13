@@ -68,7 +68,7 @@ def home():
     cursor = None
     conn = None
 
-    session_id: str | None | None = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     try:
         conn = mariadb.connect(**db_config)
