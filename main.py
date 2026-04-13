@@ -68,7 +68,7 @@ def home():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None | None = request.cookies.get("session_id")
 
     try:
         conn = mariadb.connect(**db_config)
@@ -107,7 +107,7 @@ def home():
 
 @app.route("/signup", methods=["GET"])
 def signup_page(): 
-    is_logged_in: str = request.cookies.get("session_id")
+    is_logged_in: str | None = request.cookies.get("session_id")
 
     if is_logged_in:
         return "Already logged in!", 400
@@ -116,7 +116,7 @@ def signup_page():
 
 @app.route("/login", methods=["GET"])
 def login_page():
-    is_logged_in: str = request.cookies.get("session_id")
+    is_logged_in: str | None = request.cookies.get("session_id")
 
     if is_logged_in:
         return "Already logged in!", 400
@@ -129,7 +129,7 @@ def show_all_notes():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     if not session_id:
         abort(401)
@@ -179,7 +179,7 @@ def show_all_todos():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     if not session_id:
         abort(401)
@@ -250,7 +250,7 @@ def signup():
     cursor = None
     conn = None
 
-    is_logged_in: str = request.cookies.get("session_id")
+    is_logged_in: str | None = request.cookies.get("session_id")
 
     if is_logged_in:
         return "Already logged in!", 400
@@ -266,7 +266,7 @@ def signup():
         cursor = conn.cursor()
 
         user_id: int = new_user(cursor=cursor, email=email, password=password)
-        session_id: str = secrets.token_hex(32)
+        session_id: str | None = secrets.token_hex(32)
         insert_session(cursor=cursor, session_id=session_id, user_id=user_id)
 
         m_response = make_response(render_template("index.html", email=email))
@@ -295,7 +295,7 @@ def login():
     cursor = None
     conn = None
 
-    is_logged_in: str = request.cookies.get("session_id")
+    is_logged_in: str | None = request.cookies.get("session_id")
 
     if is_logged_in:
         return "Already logged in!", 400
@@ -326,7 +326,7 @@ def login():
         if input_hash != stored_hash:
             return "Invalid email or password!", 401
 
-        session_id: str = secrets.token_hex(32)
+        session_id: str | None = secrets.token_hex(32)
         insert_session(cursor=cursor, session_id=session_id, user_id=user_id)
 
         m_response = make_response(render_template("index.html", email=email))
@@ -356,7 +356,7 @@ def add_note():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     if not session_id:
         abort(401)
@@ -364,7 +364,7 @@ def add_note():
     title: str | None = request.form.get("title")
     description: str | None = request.form.get("description")
 
-    response = handle_empty_required(title, description, is_signup=False)
+    response = handle_empty_required(title, description, is_user_stuff=False)
     if response: return response
 
     # log_file.write(f"tittel og beskrivelse: {title, description}\n")
@@ -411,7 +411,7 @@ def add_todo():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     if not session_id:
         abort(401)
@@ -424,7 +424,7 @@ def add_todo():
     # log_file.write(f"Task done: {task_done or None}\n")
     # log_file.flush()
 
-    response = handle_empty_required(title, description, is_signup=False)
+    response = handle_empty_required(title, description, is_user_stuff=False)
     if response: return response
 
     # håndtere checkbox value
@@ -481,7 +481,7 @@ def patch_note():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     if not session_id:
         abort(401)
@@ -524,7 +524,7 @@ def patch_todo():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     if not session_id:
         abort(401)
@@ -569,7 +569,7 @@ def delete_note():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     if not session_id:
         abort(401)
@@ -609,7 +609,7 @@ def delete_todo():
     cursor = None
     conn = None
 
-    session_id: str = request.cookies.get("session_id")
+    session_id: str | None = request.cookies.get("session_id")
 
     if not session_id:
         abort(401)
