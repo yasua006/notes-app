@@ -56,6 +56,9 @@ def create_necessary():
     finally:
         close_db(cursor=cursor, conn=conn)
 
+with app.app_context():
+    create_necessary()
+
 @app.context_processor
 def inject_enumerate():
     return dict(enumerate=enumerate)
@@ -561,5 +564,4 @@ def delete_todo():
 asgi_app: WsgiToAsgi = WsgiToAsgi(app)
 
 if __name__ == "__main__":
-    create_necessary()
     app.run()
