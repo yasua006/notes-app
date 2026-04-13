@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+        <title>Login</title>
+        <link
+            rel="stylesheet"
+            href="/static/css/style.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1>Login</h1>
+        </header>
+
+        <main>
+            <form action="/login" method="post">
+                <label for="email">Email:</label>
+                <input 
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Your email..."
+                required />
+
+                <label for="password">Password:</label>
+                <input 
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••••••"
+                minlength="12"
+                required />
+
+                <button type="submit">Login</button>
+            </form>
+        </main>
+    </body>
+</html>

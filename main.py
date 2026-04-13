@@ -104,9 +104,25 @@ def home():
     finally:
         close_db(cursor=cursor, conn=conn)
 
+
 @app.route("/signup", methods=["GET"])
-def signup_page() -> str:
+def signup_page(): 
+    is_logged_in: str = request.cookies.get("session_id")
+
+    if is_logged_in:
+        return "Already logged in!", 400
+
     return render_template("signup.html")
+
+@app.route("/login", methods=["GET"])
+def login_page():
+    is_logged_in: str = request.cookies.get("session_id")
+
+    if is_logged_in:
+        return "Already logged in!", 400
+
+    return render_template("login.html")
+
 
 @app.route("/notes", methods=["GET"])
 def show_all_notes():
@@ -213,11 +229,11 @@ def show_all_todos():
     finally:
         close_db(cursor=cursor, conn=conn)
 
-def handle_empty_required(one: str | None, two: str | None, is_signup: bool):
+def handle_empty_required(one: str | None, two: str | None, is_user_stuff: bool):
     if not one or not two:  # reason: terminal users
         note: dict[str, str] = {}
 
-        if not is_signup:
+        if not is_user_stuff:
             note = {
                 "error": "Title or description - empty!"
             }
@@ -228,15 +244,21 @@ def handle_empty_required(one: str | None, two: str | None, is_signup: bool):
 
         return jsonify(note)
 
+
 @app.route("/signup", methods=["POST"])
-def signup():
+def signup(): 
     cursor = None
     conn = None
+
+    is_logged_in: str = request.cookies.get("session_id")
+
+    if is_logged_in:
+        return "Already logged in!", 400
 
     email: str | None = request.form.get("email")
     password: str | None = request.form.get("password")
 
-    response = handle_empty_required(email, password, is_signup=True)
+    response = handle_empty_required(email, password, is_user_stuff=True)
     if response: return response
 
     try:
@@ -267,6 +289,67 @@ def signup():
         abort(500)
     finally:
         close_db(cursor=cursor, conn=conn)
+
+@app.route("/login", methods=["POST"])
+def login():
+    cursor = None
+    conn = None
+
+    is_logged_in: str = request.cookies.get("session_id")
+
+    if is_logged_in:
+        return "Already logged in!", 400
+
+    email: str | None = request.form.get("email")
+    password: str | None = request.form.get("password")
+
+    response = handle_empty_required(email, password, is_user_stuff=True)
+    if response: return response
+
+    try:
+        conn = mariadb.connect(**db_config)
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "SELECT id, password_hash FROM users WHERE email = ?",
+            [email]
+        )
+        row = cursor.fetchone()
+
+        if not row:
+            return "Invalid email or password!", 401
+
+        user_id, stored_hash = row
+
+        input_hash = hashlib.sha512(password.encode()).hexdigest()
+
+        if input_hash != stored_hash:
+            return "Invalid email or password!", 401
+
+        session_id: str = secrets.token_hex(32)
+        insert_session(cursor=cursor, session_id=session_id, user_id=user_id)
+
+        m_response = make_response(render_template("index.html", email=email))
+        m_response.set_cookie(
+            "session_id",
+            session_id,
+            httponly=True,
+            secure=True,
+            samesite="Lax" # top-level GET only
+        )
+
+        return m_response
+    except mariadb.Error as err:
+        log_file.write(f"Data handling failed (user login)! {err}\n")
+        log_file.flush()
+
+        if conn:
+            conn.rollback()
+
+        abort(500)
+    finally:
+        close_db(cursor=cursor, conn=conn)
+
 
 @app.route("/add-note", methods=["POST"])
 def add_note():
