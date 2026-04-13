@@ -44,8 +44,10 @@ def create_necessary():
 
         create_users(cursor)
         create_sessions(cursor)
+        create_notes(cursor)
+        create_todos(cursor)
     except mariadb.Error as err:
-        log_file.write(f"Necessary table creation failed! {err}\n")
+        log_file.write(f"Necessary db table creation failed! {err}\n")
         log_file.flush()
 
         if conn:
@@ -72,9 +74,6 @@ def home():
         if not session_id:
             abort(401)
 
-        create_notes(cursor)
-        create_todos(cursor)
-
         user_id = is_user_logged_in(cursor, session_id)
 
         if not user_id:
@@ -92,7 +91,7 @@ def home():
 
         return render_template("index.html", notes=notes, todos=todos)
     except mariadb.Error as err:
-        log_file.write(f"Notes & TODOs table creation failed! {err}\n")
+        log_file.write(f"Get notes or get todos failed (home)! {err}\n")
         log_file.flush()
 
         if conn:
@@ -407,7 +406,7 @@ def patch_note():
     
     try:
         conn = mariadb.connect(**db_config)
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
 
         user_id = is_user_logged_in(cursor, session_id)
 
@@ -451,7 +450,7 @@ def patch_todo():
 
     try:
         conn = mariadb.connect(**db_config)
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
 
         user_id = is_user_logged_in(cursor, session_id)
 
@@ -493,7 +492,7 @@ def delete_note():
 
     try:
         conn = mariadb.connect(**db_config)
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
 
         user_id = is_user_logged_in(cursor, session_id)
 
@@ -533,7 +532,7 @@ def delete_todo():
 
     try:
         conn = mariadb.connect(**db_config)
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
 
         user_id = is_user_logged_in(cursor, session_id)
 
